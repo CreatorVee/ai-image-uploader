@@ -27,8 +27,7 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Login to ACR
-        run: |
-          az acr login --name aiimguplacr
+        run: az acr login --name aiimguplacr
 
       - name: Build & Push Image
         run: |
