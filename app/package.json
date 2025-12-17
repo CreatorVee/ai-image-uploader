@@ -1,0 +1,12 @@
+{
+  "name": "ai-image-uploader",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@azure/identity": "^4.13.0",
+    "@azure/storage-blob": "^12.29.1",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1",
+    "multer": "^2.0.2"
+  }
+}
