@@ -7,6 +7,10 @@
 node_modules/
 .env
 
-# Docker
+# Docker / logs
 *.log
+
+# Explicitly allow app directory
+!app/
+!app/**
 

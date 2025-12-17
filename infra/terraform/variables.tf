@@ -1,15 +1,15 @@
 variable "location" {
   type    = string
-  default = "UK South"
+  default = "uksouth"
 }
 
-variable "resource_group" {
+variable "resource_group_name" {
   type    = string
   default = "rg-ai-image-uploader"
 }
 
-variable "storage_account_name" {
+variable "storage_account_prefix" {
   type    = string
-  default = "aiimageuploader${random_integer.suffix.result}"
+  default = "aiimgupl"
 }
 
