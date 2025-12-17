@@ -2,10 +2,10 @@ name: Backend Deploy
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
     paths:
       - "app/**"
-      - "Dockerfile"
 
 jobs:
   deploy:
@@ -26,13 +26,17 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Login to ACR
+      - name: Login to Azure Container Registry
         run: az acr login --name aiimguplacr
 
-      - name: Build & Push Image
+      - name: Build & Push Docker Image
         run: |
-          docker build -t aiimguplacr.azurecr.io/ai-image-uploader:${{ github.sha }} .
-          docker push aiimguplacr.azurecr.io/ai-image-uploader:${{ github.sha }}
+          docker build \
+            -t aiimguplacr.azurecr.io/ai-image-uploader:${{ github.sha }} \
+            ./app
+
+          docker push \
+            aiimguplacr.azurecr.io/ai-image-uploader:${{ github.sha }}
 
       - name: Deploy to Azure Container Apps
         run: |
