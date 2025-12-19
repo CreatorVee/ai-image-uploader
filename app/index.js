@@ -21,24 +21,34 @@ const ACCOUNT_NAME = "aiimgupl87343";
 const CONTAINER_NAME = "images";
 
 /* =========================
-   SECURITY
+   HEALTH (MUST BE FIRST)
 ========================= */
 
-// Allow health checks without auth
-app.use((req, res, next) => {
-  if (req.path === "/health") return next();
+app.get("/health", (_, res) => {
+  res.status(200).send("ok");
+});
 
+/* =========================
+   SECURITY (API KEY)
+========================= */
+
+app.use((req, res, next) => {
   if (req.headers["x-api-key"] !== API_KEY) {
     return res.status(401).json({ error: "unauthorized" });
   }
   next();
 });
 
-// Rate limiting
+/* =========================
+   RATE LIMITING
+========================= */
+
 app.use(
   rateLimit({
     windowMs: 60 * 1000,
     max: 30,
+    standardHeaders: true,
+    legacyHeaders: false,
   })
 );
 
@@ -78,7 +88,6 @@ if (isAzure) {
 
   containerClient =
     blobServiceClient.getContainerClient(CONTAINER_NAME);
-
 } else {
   console.log("Running locally – Azure Blob disabled");
 }
@@ -86,10 +95,6 @@ if (isAzure) {
 /* =========================
    ROUTES
 ========================= */
-
-app.get("/health", (_, res) => {
-  res.send("ok");
-});
 
 app.post("/upload", upload.single("file"), async (req, res) => {
   try {
