@@ -79,9 +79,6 @@ if (isAzure) {
   containerClient =
     blobServiceClient.getContainerClient(CONTAINER_NAME);
 
-  (async () => {
-    await containerClient.createIfNotExists();
-  })();
 } else {
   console.log("Running locally – Azure Blob disabled");
 }
