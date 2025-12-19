@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "app/**"
+      - ".github/workflows/backend-deploy.yml"
 
 jobs:
   deploy:
@@ -32,17 +33,17 @@ jobs:
       - name: Build & Push Docker Image
         run: |
           docker build \
-            -t aiimguplacr.azurecr.io/ai-image-uploader:latest \
             -t aiimguplacr.azurecr.io/ai-image-uploader:${{ github.sha }} \
+            -t aiimguplacr.azurecr.io/ai-image-uploader:latest \
             ./app
 
-          docker push aiimguplacr.azurecr.io/ai-image-uploader:latest
           docker push aiimguplacr.azurecr.io/ai-image-uploader:${{ github.sha }}
+          docker push aiimguplacr.azurecr.io/ai-image-uploader:latest
 
       - name: Deploy to Azure Container Apps
         run: |
           az containerapp update \
             --name ai-image-uploader \
             --resource-group rg-ai-image-uploader \
-            --image aiimguplacr.azurecr.io/ai-image-uploader:latest
+            --image aiimguplacr.azurecr.io/ai-image-uploader:${{ github.sha }}
 
