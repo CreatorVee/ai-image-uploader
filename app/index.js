@@ -60,20 +60,31 @@ const upload = multer({
    AZURE STORAGE (MANAGED ID)
 ========================= */
 
-const credential = new DefaultAzureCredential();
+const isAzure =
+  !!process.env.MSI_ENDPOINT ||
+  !!process.env.AZURE_CLIENT_ID;
 
-const blobServiceClient = new BlobServiceClient(
-  `https://${ACCOUNT_NAME}.blob.core.windows.net`,
-  credential
-);
+let containerClient = null;
 
-const containerClient =
-  blobServiceClient.getContainerClient(CONTAINER_NAME);
+if (isAzure) {
+  console.log("Running in Azure with Managed Identity");
 
-// Ensure container exists
-(async () => {
-  await containerClient.createIfNotExists();
-})();
+  const credential = new DefaultAzureCredential();
+
+  const blobServiceClient = new BlobServiceClient(
+    `https://${ACCOUNT_NAME}.blob.core.windows.net`,
+    credential
+  );
+
+  containerClient =
+    blobServiceClient.getContainerClient(CONTAINER_NAME);
+
+  (async () => {
+    await containerClient.createIfNotExists();
+  })();
+} else {
+  console.log("Running locally – Azure Blob disabled");
+}
 
 /* =========================
    ROUTES
@@ -85,6 +96,12 @@ app.get("/health", (_, res) => {
 
 app.post("/upload", upload.single("file"), async (req, res) => {
   try {
+    if (!containerClient) {
+      return res.status(503).json({
+        error: "storage not configured in local mode",
+      });
+    }
+
     if (!req.file) {
       return res.status(400).json({ error: "no file provided" });
     }
@@ -127,5 +144,3 @@ app.listen(PORT, () => {
   console.log(`API running on port ${PORT}`);
 });
 
-// deploy test
-// deploy test
