@@ -32,15 +32,17 @@ jobs:
       - name: Build & Push Docker Image
         run: |
           docker build \
+            -t aiimguplacr.azurecr.io/ai-image-uploader:latest \
             -t aiimguplacr.azurecr.io/ai-image-uploader:${{ github.sha }} \
             ./app
 
-          docker push \
-            aiimguplacr.azurecr.io/ai-image-uploader:${{ github.sha }}
+          docker push aiimguplacr.azurecr.io/ai-image-uploader:latest
+          docker push aiimguplacr.azurecr.io/ai-image-uploader:${{ github.sha }}
 
       - name: Deploy to Azure Container Apps
         run: |
           az containerapp update \
             --name ai-image-uploader \
             --resource-group rg-ai-image-uploader \
-            --image aiimguplacr.azurecr.io/ai-image-uploader:${{ github.sha }}
+            --image aiimguplacr.azurecr.io/ai-image-uploader:latest
+
