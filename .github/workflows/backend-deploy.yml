@@ -7,8 +7,6 @@ on:
     paths:
       - "app/**"
 
-  workflow_dispatch:   # ← THIS IS THE ONLY ADDITION
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -46,4 +44,3 @@ jobs:
             --name ai-image-uploader \
             --resource-group rg-ai-image-uploader \
             --image aiimguplacr.azurecr.io/ai-image-uploader:${{ github.sha }}
-
