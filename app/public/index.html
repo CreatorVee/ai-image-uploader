@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Image Uploader</title>
+</head>
+<body>
+  <h1>Upload Image</h1>
+
+  <form id="form">
+    <input type="file" name="file" accept="image/*" required />
+    <button type="submit">Upload</button>
+  </form>
+
+  <pre id="out"></pre>
+
+  <script>
+    const form = document.getElementById("form");
+    const out = document.getElementById("out");
+
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+
+      const res = await fetch("/upload", {
+        method: "POST",
+        headers: { "x-api-key": "supersecret" },
+        body: data
+      });
+
+      out.textContent = await res.text();
+    };
+  </script>
+</body>
+</html>
+

@@ -2,10 +2,18 @@ import express from "express";
 import multer from "multer";
 import rateLimit from "express-rate-limit";
 import path from "path";
+import { fileURLToPath } from "url";
 import { BlobServiceClient } from "@azure/storage-blob";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const app = express();
+
+/* =========================
+   PATH SETUP (ES MODULES)
+========================= */
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /* =========================
    ENV / CONFIG
@@ -16,12 +24,18 @@ if (!API_KEY) {
   throw new Error("API_KEY is not set");
 }
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 const ACCOUNT_NAME = "aiimgupl87343";
 const CONTAINER_NAME = "images";
 
 /* =========================
-   HEALTH (MUST BE FIRST)
+   STATIC FRONTEND
+========================= */
+
+app.use(express.static(path.join(__dirname, "public")));
+
+/* =========================
+   HEALTH CHECK (NO AUTH)
 ========================= */
 
 app.get("/health", (_, res) => {
@@ -29,13 +43,31 @@ app.get("/health", (_, res) => {
 });
 
 /* =========================
+   FRONTEND CONFIG (API KEY)
+========================= */
+
+app.get("/config.js", (_, res) => {
+  res.type("application/javascript");
+  res.send(`
+    window.APP_CONFIG = {
+      API_KEY: "${API_KEY}"
+    };
+  `);
+});
+
+/* =========================
    SECURITY (API KEY)
 ========================= */
 
 app.use((req, res, next) => {
+  if (req.path === "/health" || req.path === "/config.js") {
+    return next();
+  }
+
   if (req.headers["x-api-key"] !== API_KEY) {
     return res.status(401).json({ error: "unauthorized" });
   }
+
   next();
 });
 
@@ -67,7 +99,7 @@ const upload = multer({
 });
 
 /* =========================
-   AZURE STORAGE (MANAGED ID)
+   AZURE STORAGE (MANAGED IDENTITY)
 ========================= */
 
 const isAzure =
@@ -100,7 +132,7 @@ app.post("/upload", upload.single("file"), async (req, res) => {
   try {
     if (!containerClient) {
       return res.status(503).json({
-        error: "storage not configured in local mode",
+        error: "storage not configured",
       });
     }
 
@@ -139,7 +171,7 @@ app.use((err, _, res, __) => {
 });
 
 /* =========================
-   START
+   START SERVER
 ========================= */
 
 app.listen(PORT, () => {
