@@ -1,16 +1,44 @@
 # Cloud Image Uploader– Cloud DevOps Project
 
 
+> ⚠️ **Project Naming Notice**
+>
+> This repository was initially created as **ai-image-uploader** during early development.
+> As the project evolved, it became a **cloud-native image upload API focused on DevOps and Azure**.
+>
+> Some references (folder names, images, commits) may still use the original name.
+> The current project name is **Cloud Image Uploader**.
+
+
 
 ## Project Overview
 
-Cloud Image Uploader is a **cloud-native image upload API** built with Node.js and deployed on Azure.
+Cloud Image Uploader is a **cloud-native image upload API** built with **Node.js** and deployed on **Azure Container Apps**.
 
-The application allows users to upload image files through a web UI or REST API. Uploaded images are securely stored in **Azure Blob Storage**, using **Managed Identity** for authentication — no secrets or keys stored in code.
+Users upload images via a REST API. Images are stored in **Azure Blob Storage**, with authentication using **Azure Managed Identity** — no secrets or keys in code.
 
-The project focuses on **real DevOps practices**, including containerization, infrastructure as code, CI/CD automation, and secure cloud deployments.
+This project demonstrates **real-world DevOps practices**:
+- Containerization with Docker  
+- Infrastructure as Code with Terraform  
+- CI/CD automation with GitHub Actions  
+- Secure Azure deployments  
+- Managed Identity for cloud storage  
+
+This simulates how production APIs are built, deployed, and maintained.
 
 ---
+
+### Runtime Flow (After Deployment)
+
+1. User sends an image upload request to the API endpoint
+2. API runs inside Azure Container Apps
+3. Application authenticates to Azure Blob Storage using Managed Identity
+4. Image is stored securely in Azure Blob Storage
+
+The CI/CD pipeline only builds and deploys the application — it doesn't run during normal operation.
+
+---
+
 Tech Stack
 
 CLICK ON THE DIFFERENT TECH BADGES TO SEE HOW I USED THE TOOLS IN THIS PROJECT
@@ -29,8 +57,24 @@ CLICK ON THE DIFFERENT TECH BADGES TO SEE HOW I USED THE TOOLS IN THIS PROJECT
 [![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI/CD-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/CreatorVee/ai-image-uploader/actions)
 
 ---
+# Azure Content 
 
-![afkapa](https://github.com/user-attachments/assets/968a7d35-7f87-47ac-a7fc-ead4ee6afc6a)
+![Azure Blob Storage](https://img.shields.io/badge/Azure_Blob_Storage-0089D6?style=for-the-badge&logo=microsoft-azure&logoColor=white)
+![Azure Container Apps](https://img.shields.io/badge/Azure_Container_Apps-0078D4?style=for-the-badge&logo=microsoft-azure&logoColor=white)
+
+
+
+<img width="1779" height="847" alt="2025-12-21_00h09_46" src="https://github.com/user-attachments/assets/708bbc4e-c1d1-4a7e-aba9-549138e02a04" />
+
+---
+
+<img width="1792" height="423" alt="2025-12-21_00h16_54" src="https://github.com/user-attachments/assets/468b4c31-5e28-4fb1-8b46-d3f9157e4db7" />
+
+
+---
+# WEB UI
+
+![Adobe Express - Untitled](https://github.com/user-attachments/assets/acf191ba-7f53-4d78-bd7f-83bb912268bf)
 
 
 ---
