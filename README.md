@@ -211,7 +211,7 @@ CLICK ON THE DIFFERENT TECH BADGES TO SEE HOW I USED THE TOOLS IN THIS PROJECT
 
  ---
 
-# 3️⃣Azure & Terraform
+# 3️⃣ Azure & Terraform
 
 - Terraform provisions all cloud resources
 - terraform init
