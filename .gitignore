@@ -1,16 +1,32 @@
+# =========================
 # Terraform
+# =========================
 **/.terraform/
 **/*.tfstate
 **/*.tfstate.backup
 
-# Node
+# =========================
+# Node / JS
+# =========================
 node_modules/
 .env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Docker / logs
+# =========================
+# Docker / Logs
+# =========================
 *.log
 
-# Explicitly allow app directory
-!app/
-!app/**
+# =========================
+# Legacy folders (local only)
+# =========================
+frontend/
+backend/
+
+# =========================
+# Root test file (do not track)
+# =========================
+index.js
 
