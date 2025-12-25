@@ -74,7 +74,10 @@ CLICK ON THE DIFFERENT TECH BADGES TO SEE HOW I USED THE TOOLS IN THIS PROJECT
 ---
 # WEB UI
 
-![Adobe Express - Untitled](https://github.com/user-attachments/assets/acf191ba-7f53-4d78-bd7f-83bb912268bf)
+![2025-12-25_10h26_40](https://github.com/user-attachments/assets/4b057f26-9aab-44f7-8b2e-f9d725c39bce)
+
+
+
 
 
 ---
